@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MFC-StringTable-Generator-1")]
-[assembly: AssemblyDescription("A generator of MFC's StringTable")]
+[assembly: AssemblyDescription("A generator of MFC's StringTable.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MFC-StringTable-Generator-1")]
