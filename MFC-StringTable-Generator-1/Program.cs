@@ -11,11 +11,9 @@ namespace MFC_StringTable_Generator_1
     {
         static void Main(string[] args)
         {
-            Random rd = new Random();
-
             string folder = "out";
             while (Directory.Exists(folder))
-                folder = folder + rd.Next();
+                folder = folder + Guid.NewGuid().ToString("N");
             Directory.CreateDirectory(folder);
 
             string path_rc = folder + "/rc.txt";
@@ -23,30 +21,35 @@ namespace MFC_StringTable_Generator_1
 
             int result, start, count;
 
+            Select:
             Console.Write("Enter start index:");
-            if (!int.TryParse(Console.ReadLine(), out result))
+            while (!int.TryParse(Console.ReadLine(), out result))
             {
-                throw new ArgumentException("start");
+                Console.Write("Enter start index:");
             }
             start = result;// 60000;
 
             Console.Write("Enter count:");
-            if (!int.TryParse(Console.ReadLine(), out result))
+            while (!int.TryParse(Console.ReadLine(), out result))
             {
-                throw new ArgumentException("count");
+                Console.Write("Enter count:");
             }
-            count = result;
+            count = result;// 100
 
             if (start < 0 || count < 0 || start + count > 65535)
-                throw new ArgumentOutOfRangeException();
+            {
+                Console.WriteLine("Incorrect.");
+                goto Select;
+            }
 
             string[] A2Z = new string[26];
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 26; i++)
             {
                 A2Z[i] = Convert.ToChar(65 + i).ToString();
             }
 
             string ID, txt_h, text_rc;
+            Random rd = new Random();
 
             using (FileStream fs_rc = File.Create(path_rc))
             {
@@ -57,7 +60,7 @@ namespace MFC_StringTable_Generator_1
                         ID = string.Format("IDS_STRING{0:D5}", i);
 
                         txt_h = string.Format("#define {0} {1}\r\n", ID, i);
-                        text_rc = string.Format("    {0}         \"{1}\"\r\n", ID, A2Z[rd.Next(0, 25)]);
+                        text_rc = string.Format("    {0}         \"{1}\"\r\n", ID, A2Z[rd.Next(0, 26)]);
 
                         AppendText(fs_rc, text_rc);
                         AppendText(fs_h, txt_h);
