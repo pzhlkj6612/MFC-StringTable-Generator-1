@@ -42,6 +42,14 @@ namespace MFC_StringTable_Generator_1
                 goto Select;
             }
 
+            string prefix;
+
+            Console.Write("Enter prefix:");
+            while (string.IsNullOrWhiteSpace((prefix = Console.ReadLine())))
+            {
+                Console.Write("Enter prefix:");
+            }
+
             string[] A2Z = new string[26];
             for (int i = 0; i < 26; i++)
             {
@@ -57,7 +65,7 @@ namespace MFC_StringTable_Generator_1
                 {
                     for (int i = start; i < start + count; i++)
                     {
-                        ID = string.Format("IDS_STRING{0:D5}", i);
+                        ID = string.Format("{0}{1:D5}", prefix, i);
 
                         txt_h = string.Format("#define {0} {1}\r\n", ID, i);
                         text_rc = string.Format("    {0}         \"{1}\"\r\n", ID, A2Z[rd.Next(0, 26)]);
