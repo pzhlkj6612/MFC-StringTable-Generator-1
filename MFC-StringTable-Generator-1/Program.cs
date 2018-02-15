@@ -25,14 +25,14 @@ namespace MFC_StringTable_Generator_1
             Console.Write("Enter start index:");
             while (!int.TryParse(Console.ReadLine(), out result))
             {
-                Console.Write("Enter start index:");
+                Console.Write("Error. Enter start index:");
             }
             start = result;// 60000;
 
             Console.Write("Enter count:");
             while (!int.TryParse(Console.ReadLine(), out result))
             {
-                Console.Write("Enter count:");
+                Console.Write("Error. Enter count:");
             }
             count = result;// 100
 
@@ -42,12 +42,18 @@ namespace MFC_StringTable_Generator_1
                 goto Select;
             }
 
-            string prefix;
+            string prefix, suffix;
 
             Console.Write("Enter prefix:");
             while (string.IsNullOrWhiteSpace((prefix = Console.ReadLine())))
             {
                 Console.Write("Enter prefix:");
+            }
+
+            Console.Write("Enter suffix:");
+            while (string.IsNullOrWhiteSpace((suffix = Console.ReadLine())))
+            {
+                Console.Write("Enter suffix:");
             }
 
             string[] A2Z = new string[26];
@@ -65,7 +71,7 @@ namespace MFC_StringTable_Generator_1
                 {
                     for (int i = start; i < start + count; i++)
                     {
-                        ID = string.Format("{0}{1:D5}", prefix, i);
+                        ID = string.Format("{0}{1:D5}{2}", prefix, i, suffix);
 
                         txt_h = string.Format("#define {0} {1}\r\n", ID, i);
                         text_rc = string.Format("    {0}         \"{1}\"\r\n", ID, A2Z[rd.Next(0, 26)]);
