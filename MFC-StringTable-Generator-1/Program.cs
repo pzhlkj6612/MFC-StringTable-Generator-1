@@ -11,17 +11,16 @@ namespace MFC_StringTable_Generator_1
     {
         static void Main(string[] args)
         {
-            string folder = "out";
-            while (Directory.Exists(folder))
-                folder = folder + Guid.NewGuid().ToString("N");
-            Directory.CreateDirectory(folder);
-
-            string path_rc = folder + "/rc.txt";
-            string path_h = folder + "/h.txt";
-
+            string DefaultFolderName = "out";
+            while (Directory.Exists(DefaultFolderName))
+                DefaultFolderName = DefaultFolderName + Guid.NewGuid().ToString("N");
+            Directory.CreateDirectory(DefaultFolderName);
+            string path_rc = DefaultFolderName + "/rc.txt";
+            string path_h = DefaultFolderName + "/h.txt";
+            
             int result, start, count;
 
-            Select:
+            Range:
             Console.Write("Enter start index:");
             while (!int.TryParse(Console.ReadLine(), out result))
             {
@@ -39,7 +38,7 @@ namespace MFC_StringTable_Generator_1
             if (start < 0 || count < 0 || start + count > 65535)
             {
                 Console.WriteLine("Incorrect.");
-                goto Select;
+                goto Range;
             }
 
             string prefix = "", suffix = "";
@@ -56,32 +55,30 @@ namespace MFC_StringTable_Generator_1
                 A2Z[i] = Convert.ToChar(65 + i).ToString();
             }
 
-            string ID, txt_h, text_rc;
-            Random rd = new Random();
+            string ID, text_h, text_rc;
 
-            using (FileStream fs_rc = File.Create(path_rc))
+            using (StreamWriter sw_rc = new StreamWriter(File.Open(path_rc, FileMode.Append)), sw_h = new StreamWriter(File.Open(path_h, FileMode.Append)))
             {
-                using (FileStream fs_h = File.Create(path_h))
+                Random rd = new Random();
+                for (int i = start; i < start + count; i++)
                 {
-                    for (int i = start; i < start + count; i++)
-                    {
-                        ID = string.Format("{0}{1:D5}{2}", prefix, i, suffix);
+                    ID = string.Format("{0}{1:D5}{2}", prefix, i, suffix);
 
-                        txt_h = string.Format("#define {0} {1}\r\n", ID, i);
-                        text_rc = string.Format("    {0}         \"{1}\"\r\n", ID, A2Z[rd.Next(0, 26)]);
+                    text_h = string.Format("#define {0} {1}", ID, i);
+                    text_rc = string.Format("    {0}         \"{1}\"", ID, A2Z[rd.Next(0, 26)]);
 
-                        AppendText(fs_rc, text_rc);
-                        AppendText(fs_h, txt_h);
-                    }
+                    sw_rc.WriteLine(text_rc);
+                    sw_h.WriteLine(text_h);
                 }
             }
-            Process.Start(Environment.GetEnvironmentVariable("windir") + "/explorer.exe", "/select," + folder);
-        }
-        private static void AppendText(FileStream fs, string value)
-        {
-            //Reference: https://msdn.microsoft.com/en-us/library/y0bs3w9t.aspx#Anchor_6
-            byte[] info = new UTF8Encoding(true).GetBytes(value);
-            fs.Write(info, 0, info.Length);
+
+            Console.Write("Press c to continue genrator:");
+            if ('c' == Console.ReadKey().KeyChar)
+            {
+                Console.WriteLine();
+                goto Range;
+            }
+            Process.Start(Environment.GetEnvironmentVariable("windir") + "/explorer.exe", "/select," + DefaultFolderName);
         }
     }
 }
