@@ -42,19 +42,13 @@ namespace MFC_StringTable_Generator_1
                 goto Select;
             }
 
-            string prefix, suffix;
+            string prefix = "", suffix = "";
 
             Console.Write("Enter prefix:");
-            while (string.IsNullOrWhiteSpace((prefix = Console.ReadLine())))
-            {
-                Console.Write("Enter prefix:");
-            }
+            prefix = Console.ReadLine();
 
             Console.Write("Enter suffix:");
-            while (string.IsNullOrWhiteSpace((suffix = Console.ReadLine())))
-            {
-                Console.Write("Enter suffix:");
-            }
+            suffix = Console.ReadLine();
 
             string[] A2Z = new string[26];
             for (int i = 0; i < 26; i++)
