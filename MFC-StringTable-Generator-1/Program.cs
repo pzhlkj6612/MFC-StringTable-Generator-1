@@ -18,6 +18,8 @@ namespace MFC_StringTable_Generator_1
             string path_rc = DefaultFolderName + "/rc.txt";
             string path_h = DefaultFolderName + "/h.txt";
 
+            Gogogo:
+
             string prefix = "", suffix = "";
 
             Console.Write("Enter prefix:");
@@ -27,8 +29,6 @@ namespace MFC_StringTable_Generator_1
             suffix = Console.ReadLine();
 
             int result, start, count;
-
-            Range:
             Console.Write("Enter start index:");
             while (!int.TryParse(Console.ReadLine(), out result))
             {
@@ -46,7 +46,7 @@ namespace MFC_StringTable_Generator_1
             if (start < 0 || count < 0 || start + count > 65535)
             {
                 Console.WriteLine("Incorrect.");
-                goto Range;
+                goto Gogogo;
             }
 
             string[] A2Z = new string[26];
@@ -76,7 +76,7 @@ namespace MFC_StringTable_Generator_1
             if ('c' == Console.ReadKey().KeyChar)
             {
                 Console.WriteLine();
-                goto Range;
+                goto Gogogo;
             }
             Process.Start(Environment.GetEnvironmentVariable("windir") + "/explorer.exe", "/select," + DefaultFolderName);
         }
