@@ -17,7 +17,15 @@ namespace MFC_StringTable_Generator_1
             Directory.CreateDirectory(DefaultFolderName);
             string path_rc = DefaultFolderName + "/rc.txt";
             string path_h = DefaultFolderName + "/h.txt";
-            
+
+            string prefix = "", suffix = "";
+
+            Console.Write("Enter prefix:");
+            prefix = Console.ReadLine();
+
+            Console.Write("Enter suffix:");
+            suffix = Console.ReadLine();
+
             int result, start, count;
 
             Range:
@@ -40,14 +48,6 @@ namespace MFC_StringTable_Generator_1
                 Console.WriteLine("Incorrect.");
                 goto Range;
             }
-
-            string prefix = "", suffix = "";
-
-            Console.Write("Enter prefix:");
-            prefix = Console.ReadLine();
-
-            Console.Write("Enter suffix:");
-            suffix = Console.ReadLine();
 
             string[] A2Z = new string[26];
             for (int i = 0; i < 26; i++)
