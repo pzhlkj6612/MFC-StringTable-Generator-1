@@ -18,6 +18,8 @@ namespace MFC_StringTable_Generator_1
             string path_rc = DefaultFolderName + "/rc.txt";
             string path_h = DefaultFolderName + "/h.txt";
 
+            bool FirstGenerate = true;
+
             Gogogo:
 
             string prefix = "", suffix = "";
@@ -59,6 +61,11 @@ namespace MFC_StringTable_Generator_1
 
             using (StreamWriter sw_rc = new StreamWriter(File.Open(path_rc, FileMode.Append)), sw_h = new StreamWriter(File.Open(path_h, FileMode.Append)))
             {
+                if (FirstGenerate)
+                {
+                    sw_rc.WriteLine("STRINGTABLE");
+                    sw_rc.WriteLine("BEGIN");//need END
+                }
                 Random rd = new Random();
                 for (int i = start; i < start + count; i++)
                 {
@@ -76,6 +83,7 @@ namespace MFC_StringTable_Generator_1
             if ('c' == Console.ReadKey().KeyChar)
             {
                 Console.WriteLine();
+                FirstGenerate = false;
                 goto Gogogo;
             }
             Process.Start(Environment.GetEnvironmentVariable("windir") + "/explorer.exe", "/select," + DefaultFolderName);
